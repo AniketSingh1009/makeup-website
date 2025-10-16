@@ -84,15 +84,15 @@ const Contact = () => {
               <div className="space-y-4 text-neutral-600 dark:text-neutral-300">
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-primary-400 rounded-full mr-3"></div>
-                  <span>New York City (Manhattan, Brooklyn, Queens)</span>
+                  <span>Bihar</span>
                 </div>
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-primary-400 rounded-full mr-3"></div>
-                  <span>Long Island & Westchester County</span>
+                  <span>Varansi (within 50 miles)</span>
                 </div>
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-primary-400 rounded-full mr-3"></div>
-                  <span>New Jersey (within 50 miles)</span>
+                  <span>PAN India(With Team)</span>
                 </div>
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-primary-400 rounded-full mr-3"></div>

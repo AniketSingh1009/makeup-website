@@ -5,7 +5,7 @@ const Hero = ({ onViewPortfolio }) => {
 
   const slides = [
     {
-      image: "/pictures/b61.jpg?auto=format&fit=crop&w=2000&q=100",
+      image: "/pictures/af1.jpg?auto=format&fit=crop&w=2000&q=100",
       title: "Artistry That",
       subtitle: "Transforms",
       description: "Creating timeless beauty for life's most precious moments"

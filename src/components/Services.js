@@ -6,7 +6,7 @@ const Services = ({ onViewPortfolio }) => {
       icon: '💍',
       title: 'Bridal Makeup',
       description: 'Your perfect wedding day look, from intimate ceremonies to grand celebrations. Includes trial session and day-of services.',
-      features: ['Perfection Gurantee','Wedding Day Application', 'Touch-up Kit Included', 'Bridal Party Packages', 'Travel Available'],
+      features: ['Perfection Gurantee', 'Wedding Day Application', 'Touch-up Kit Included', 'Bridal Party Packages', 'Travel Available'],
       price: 'From 15000 onwards',
       duration: '3-4 hours',
       popular: true
@@ -16,7 +16,7 @@ const Services = ({ onViewPortfolio }) => {
       title: 'Editorial & Fashion',
       description: 'High-fashion makeup for photoshoots, fashion shows, and creative projects. Collaboration with photographers and stylists.',
       features: ['Creative Concept Development', 'Photo-Ready Application', 'Multiple Look Changes', 'Portfolio Collaboration', 'Set Touch-ups'],
-      price: 'From 10000 onwards',
+      price: 'From 15000 onwards',
       duration: '2-3 hours',
       popular: false
     },
@@ -52,7 +52,7 @@ const Services = ({ onViewPortfolio }) => {
       title: 'Group Services',
       description: 'Perfect for bridal parties, corporate events, or special celebrations. Professional makeup for multiple people.',
       features: ['Group Discounts', 'Coordinated Looks', 'Flexible Scheduling', 'On-Location Service', 'Team of Artists Available'],
-      price: 'From 4000 onwards',
+      price: 'From 5000 onwards',
       duration: '1 hour/person',
       popular: false
     }
@@ -73,7 +73,7 @@ const Services = ({ onViewPortfolio }) => {
             My <span className="text-gradient">Services</span>
           </h2>
           <p className="text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto font-light leading-relaxed">
-            From intimate bridal sessions to high-fashion editorial shoots, I offer comprehensive 
+            From intimate bridal sessions to high-fashion editorial shoots, I offer comprehensive
             makeup services tailored to your unique vision and style.
           </p>
         </div>
@@ -81,24 +81,23 @@ const Services = ({ onViewPortfolio }) => {
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {services.map((service, index) => (
-            <div 
-              key={index} 
-              className={`relative bg-white dark:bg-neutral-700 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden card-hover animate-scale-in ${
-                service.popular ? 'ring-2 ring-primary-200 dark:ring-primary-400' : ''
-              }`}
-              style={{animationDelay: `${index * 0.1}s`}}
+            <div
+              key={index}
+              className={`relative bg-white dark:bg-neutral-700 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden card-hover animate-scale-in ${service.popular ? 'ring-2 ring-primary-200 dark:ring-primary-400' : ''
+                }`}
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
               {service.popular && (
                 <div className="absolute top-6 right-6 bg-gradient-to-r from-primary-500 to-gold-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
                   Most Popular
                 </div>
               )}
-              
+
               <div className="p-8">
                 <div className="text-5xl mb-6">{service.icon}</div>
                 <h3 className="text-2xl font-display font-semibold text-neutral-800 dark:text-white mb-4">{service.title}</h3>
                 <p className="text-neutral-600 dark:text-neutral-300 mb-6 leading-relaxed">{service.description}</p>
-                
+
                 {/* Duration */}
                 <div className="flex items-center mb-6 text-sm text-neutral-500 dark:text-neutral-400">
                   <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -106,7 +105,7 @@ const Services = ({ onViewPortfolio }) => {
                   </svg>
                   {service.duration}
                 </div>
-                
+
                 {/* Features */}
                 <ul className="space-y-3 mb-8">
                   {service.features.map((feature, featureIndex) => (
@@ -122,13 +121,12 @@ const Services = ({ onViewPortfolio }) => {
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-2xl font-display font-bold text-primary-600">{service.price}</span>
                   </div>
-                  <button 
+                  <button
                     onClick={() => handleBookService(service.title)}
-                    className={`w-full py-3 px-6 rounded-full font-medium transition-all duration-300 transform hover:scale-105 ${
-                      service.popular 
-                        ? 'bg-gradient-to-r from-primary-500 to-gold-500 text-white shadow-lg hover:shadow-xl' 
+                    className={`w-full py-3 px-6 rounded-full font-medium transition-all duration-300 transform hover:scale-105 ${service.popular
+                        ? 'bg-gradient-to-r from-primary-500 to-gold-500 text-white shadow-lg hover:shadow-xl'
                         : 'bg-primary-500 hover:bg-primary-600 text-white'
-                    }`}
+                      }`}
                   >
                     Book {service.title}
                   </button>
@@ -144,11 +142,11 @@ const Services = ({ onViewPortfolio }) => {
             <div className="text-4xl mb-6">🎨</div>
             <h3 className="text-3xl font-display font-semibold text-neutral-800 dark:text-white mb-4">Custom Packages</h3>
             <p className="text-lg text-neutral-600 dark:text-neutral-300 mb-8 max-w-2xl mx-auto leading-relaxed">
-              Have a unique vision or special requirements? I create bespoke makeup packages for 
+              Have a unique vision or special requirements? I create bespoke makeup packages for
               destination weddings, multi-day events, film projects, and special celebrations.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
+              <button
                 onClick={() => handleBookService('Custom Package Consultation')}
                 className="btn-primary"
               >
@@ -168,12 +166,12 @@ const Services = ({ onViewPortfolio }) => {
             <h4 className="font-display font-semibold text-neutral-800 mb-2">Travel Services</h4>
             <p className="text-neutral-600 text-sm">On-location services available within 50 miles. Travel fees may apply.</p>
           </div>
-          <div className="animate-fade-in" style={{animationDelay: '0.2s'}}>
+          <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <div className="text-3xl mb-4">💎</div>
             <h4 className="font-display font-semibold text-neutral-800 mb-2">Premium Products</h4>
             <p className="text-neutral-600 text-sm">Only the finest professional-grade cosmetics from top luxury brands.</p>
           </div>
-          <div className="animate-fade-in" style={{animationDelay: '0.4s'}}>
+          <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
             <div className="text-3xl mb-4">📞</div>
             <h4 className="font-display font-semibold text-neutral-800 mb-2">Free Consultation</h4>
             <p className="text-neutral-600 text-sm">Complimentary consultation to discuss your vision and needs.</p>

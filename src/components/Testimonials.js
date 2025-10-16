@@ -8,7 +8,7 @@ const Testimonials = ({ onViewPortfolio }) => {
       name: 'Emily Johnson',
       role: 'Bride • Central Park Wedding',
       image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
-      text: 'Sarah made my wedding day absolutely magical! Her attention to detail and ability to enhance my natural beauty was incredible. I felt like the most radiant version of myself, and the makeup lasted perfectly through tears of joy and dancing all night.',
+      text: 'Sarah made my wedding day absolutely magical! Her attention to detail was incredible. I felt like the most radiant version of myself.',
       rating: 5,
       featured: true
     },
@@ -16,7 +16,7 @@ const Testimonials = ({ onViewPortfolio }) => {
       name: 'Maria Rodriguez',
       role: 'Fashion Model • Vogue Editorial',
       image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
-      text: 'Working with Sarah on editorial shoots is always a dream. She understands lighting, photography, and how to create looks that translate beautifully on camera. Her artistry elevates every shoot.',
+      text: 'Working with Sarah is always a dream. She understands lighting and creates looks that translate beautifully on camera.',
       rating: 5,
       featured: false
     },
@@ -24,7 +24,7 @@ const Testimonials = ({ onViewPortfolio }) => {
       name: 'Jessica Chen',
       role: 'Event Coordinator • Luxury Weddings',
       image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
-      text: 'I recommend Sarah to all my high-end clients. She is incredibly professional, always punctual, and creates stunning looks that photograph beautifully. My clients are consistently thrilled with the results.',
+      text: 'I recommend Sarah to all my clients. She is incredibly professional and creates stunning looks that photograph beautifully.',
       rating: 5,
       featured: false
     },
@@ -32,7 +32,7 @@ const Testimonials = ({ onViewPortfolio }) => {
       name: 'Amanda Thompson',
       role: 'Portrait Photographer',
       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
-      text: 'Sarah is my go-to makeup artist for all my portrait sessions. Her work is flawless and she has this amazing ability to make every client feel comfortable and confident. The results speak for themselves.',
+      text: 'Sarah is my go-to makeup artist. Her work is flawless and she makes every client feel comfortable and confident.',
       rating: 5,
       featured: false
     },
@@ -40,7 +40,7 @@ const Testimonials = ({ onViewPortfolio }) => {
       name: 'Rachel Kim',
       role: 'Bride • Destination Wedding',
       image: 'https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
-      text: 'Sarah traveled to our destination wedding in the Hamptons and was worth every penny. She created the perfect romantic look that complemented our beach ceremony beautifully. Absolutely stunning work!',
+      text: 'Sarah traveled to our destination wedding and was worth every penny. She created the perfect romantic look for our ceremony.',
       rating: 5,
       featured: false
     }
@@ -91,7 +91,7 @@ const Testimonials = ({ onViewPortfolio }) => {
           <div className="bg-white dark:bg-neutral-700 rounded-3xl shadow-2xl overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-0">
               {/* Image Section */}
-              <div className="relative h-64 lg:h-auto">
+              <div className="relative h-48 lg:h-auto">
                 <img
                   src={testimonials[currentTestimonial].image}
                   alt={testimonials[currentTestimonial].name}
@@ -106,14 +106,14 @@ const Testimonials = ({ onViewPortfolio }) => {
               </div>
 
               {/* Content Section */}
-              <div className="lg:col-span-2 p-8 lg:p-12 flex flex-col justify-center">
+              <div className="lg:col-span-2 p-6 lg:p-8 flex flex-col justify-center">
                 <div className="mb-6">
                   <svg className="w-12 h-12 text-primary-200 mb-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" />
                   </svg>
                 </div>
 
-                <blockquote className="text-xl lg:text-2xl text-neutral-700 dark:text-neutral-200 mb-8 leading-relaxed font-light">
+                <blockquote className="text-lg lg:text-xl text-neutral-700 dark:text-neutral-200 mb-6 leading-relaxed font-light">
                   {testimonials[currentTestimonial].text}
                 </blockquote>
 

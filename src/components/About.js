@@ -13,31 +13,42 @@ const About = ({ onViewPortfolio }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
           {/* Image */}
           <div className="relative animate-fade-in">
-            <div className="relative">
-              <img
-                src="/pictures/dp1.jpg"
-                alt="Professional Makeup Artist Portrait"
-                className="rounded-3xl shadow-2xl w-full h-[500px] lg:h-[600px] object-cover"
-              />
-              {/* Decorative elements */}
-              <div className="absolute -top-6 -left-6 w-24 h-24 bg-primary-100 rounded-full opacity-60"></div>
-              <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-gold-100 rounded-full opacity-40"></div>
+            {/* Main Image Container with Beautiful Border */}
+            <div className="relative p-4 bg-gradient-to-br from-primary-100 via-white to-gold-100 dark:from-primary-900/20 dark:via-neutral-800 dark:to-gold-900/20 rounded-3xl shadow-2xl">
+              <div className="relative overflow-hidden rounded-2xl">
+                <img
+                  src="/pictures/dp1.jpg"
+                  alt="Professional Makeup Artist Portrait"
+                  className="w-full h-[450px] lg:h-[550px] object-cover object-center scale-110 border-4 border-white dark:border-neutral-700 rounded-2xl shadow-lg"
+                />
+                {/* Elegant overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent rounded-2xl"></div>
+              </div>
+              
+              {/* Decorative corner elements */}
+              <div className="absolute -top-2 -left-2 w-16 h-16 bg-gradient-to-br from-primary-200 to-primary-300 dark:from-primary-700 dark:to-primary-800 rounded-full opacity-80"></div>
+              <div className="absolute -bottom-2 -right-2 w-20 h-20 bg-gradient-to-br from-gold-200 to-gold-300 dark:from-gold-700 dark:to-gold-800 rounded-full opacity-60"></div>
             </div>
 
             {/* Experience Badge */}
-            <div className="absolute -bottom-8 left-8 bg-white p-6 rounded-2xl shadow-xl border border-neutral-100">
+            <div className="absolute -bottom-6 left-6 bg-white dark:bg-neutral-700 p-5 rounded-2xl shadow-xl border-2 border-primary-100 dark:border-primary-800">
               <div className="text-center">
-                <div className="text-3xl font-display font-bold text-primary-600 mb-1">4+</div>
-                <div className="text-sm font-medium text-neutral-600">Years Experience</div>
+                <div className="text-2xl font-display font-bold text-primary-600 dark:text-primary-400 mb-1">4+</div>
+                <div className="text-xs font-medium text-neutral-600 dark:text-neutral-300">Years Experience</div>
               </div>
             </div>
 
             {/* Awards Badge */}
-            <div className="absolute top-8 -right-4 bg-gradient-to-r from-gold-400 to-gold-500 text-white p-4 rounded-2xl shadow-lg">
+            <div className="absolute top-6 -right-3 bg-gradient-to-r from-gold-400 to-gold-500 dark:from-gold-500 dark:to-gold-600 text-white p-4 rounded-2xl shadow-lg border-2 border-white dark:border-neutral-700">
               <div className="text-center">
-                <div className="text-xl font-bold mb-1">50+</div>
-                <div className="text-xs">Happy Brides</div>
+                <div className="text-lg font-bold mb-1">30+</div>
+                <div className="text-xs">Happy Clients</div>
               </div>
+            </div>
+
+            {/* Floating makeup brush icon */}
+            <div className="absolute top-1/2 -left-4 transform -translate-y-1/2 bg-white dark:bg-neutral-700 p-3 rounded-full shadow-lg border-2 border-primary-200 dark:border-primary-700">
+              <div className="text-2xl">🖌️</div>
             </div>
           </div>
 
@@ -52,7 +63,7 @@ const About = ({ onViewPortfolio }) => {
 
             <div className="space-y-6 text-lg text-neutral-600 dark:text-neutral-300 leading-relaxed mb-10">
               <p>
-                Hello beautiful! I'm <span className="font-semibold text-neutral-800"> Preety </span>,
+                Hello beautiful! I'm <span className="font-semibold text-neutral-800 dark:text-white"> Preety </span>,
                 a passionate makeup artist with over 5 years of experience creating stunning looks
                 that celebrate your unique beauty. My journey began with a simple belief:
                 every person deserves to feel absolutely radiant.
@@ -71,7 +82,7 @@ const About = ({ onViewPortfolio }) => {
 
             {/* Specialties */}
             <div className="mb-10">
-              <h3 className="text-xl font-display font-semibold text-neutral-800 mb-6">My Specialties</h3>
+              <h3 className="text-xl font-display font-semibold text-neutral-800 dark:text-white mb-6">My Specialties</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
                   { icon: '💍', skill: 'Bridal Makeup' },
@@ -81,9 +92,9 @@ const About = ({ onViewPortfolio }) => {
                   { icon: '🎨', skill: 'Color Theory' },
                   { icon: '👑', skill: 'Luxury Beauty' }
                 ].map((item, index) => (
-                  <div key={index} className="flex items-center p-3 bg-neutral-50 rounded-xl hover:bg-primary-50 transition-colors duration-300">
+                  <div key={index} className="flex items-center p-3 bg-neutral-50 dark:bg-neutral-800 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors duration-300">
                     <span className="text-2xl mr-4">{item.icon}</span>
-                    <span className="font-medium text-neutral-700">{item.skill}</span>
+                    <span className="font-medium text-neutral-700 dark:text-neutral-300">{item.skill}</span>
                   </div>
                 ))}
               </div>
@@ -91,8 +102,8 @@ const About = ({ onViewPortfolio }) => {
 
             {/* Certifications */}
             <div className="mb-10">
-              <h3 className="text-xl font-display font-semibold text-neutral-800 mb-4">Certifications & Training</h3>
-              <div className="space-y-2 text-neutral-600">
+              <h3 className="text-xl font-display font-semibold text-neutral-800 dark:text-white mb-4">Certifications & Training</h3>
+              <div className="space-y-2 text-neutral-600 dark:text-neutral-300">
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-primary-400 rounded-full mr-3"></div>
                   <span>Certified Professional Makeup Artist - Beauty Institute</span>

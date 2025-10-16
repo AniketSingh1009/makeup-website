@@ -1,4 +1,3 @@
-import React from 'react';
 
 const Products = () => {
   const brands = [
@@ -108,7 +107,7 @@ const Products = () => {
             Premium <span className="text-gradient">Products & Brands</span>
           </h2>
           <p className="text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto font-light leading-relaxed">
-            I work exclusively with high-end, professional-grade cosmetics from the world's most 
+            I work exclusively with high-end, professional-grade cosmetics from the world's most
             trusted beauty brands to ensure flawless, long-lasting results.
           </p>
         </div>
@@ -120,10 +119,10 @@ const Products = () => {
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
             {brands.map((brand, index) => (
-              <div 
+              <div
                 key={index}
                 className="bg-white dark:bg-neutral-700 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover animate-scale-in text-center"
-                style={{animationDelay: `${index * 0.1}s`}}
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="h-16 flex items-center justify-center mb-4">
                   <div className="text-2xl font-bold text-neutral-700 dark:text-neutral-200">
@@ -140,27 +139,34 @@ const Products = () => {
 
         {/* Product Categories */}
         <div className="mb-16">
-          <h3 className="text-2xl font-display font-semibold text-center text-neutral-800 mb-12">
+          <h3 className="text-xl font-display font-semibold text-center text-neutral-800 dark:text-white mb-8">
             Professional Product Categories
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
             {productCategories.map((category, index) => (
-              <div 
+              <div
                 key={index}
-                className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover animate-slide-up"
-                style={{animationDelay: `${index * 0.1}s`}}
+                className="bg-white dark:bg-neutral-700 rounded-2xl p-4 lg:p-6 shadow-md hover:shadow-xl transition-all duration-300 card-hover animate-scale-in group"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="text-4xl mb-6 text-center">{category.icon}</div>
-                <h4 className="text-xl font-display font-semibold text-neutral-800 mb-6 text-center">
-                  {category.category}
-                </h4>
-                <ul className="space-y-3">
-                  {category.products.map((product, productIndex) => (
-                    <li key={productIndex} className="flex items-start text-neutral-600">
-                      <div className="w-2 h-2 bg-primary-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span className="text-sm">{product}</span>
+                <div className="text-center mb-4">
+                  <div className="text-2xl lg:text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">{category.icon}</div>
+                  <h4 className="text-sm lg:text-base font-display font-semibold text-neutral-800 dark:text-white mb-3 leading-tight">
+                    {category.category}
+                  </h4>
+                </div>
+                <ul className="space-y-2">
+                  {category.products.slice(0, 3).map((product, productIndex) => (
+                    <li key={productIndex} className="flex items-start text-neutral-600 dark:text-neutral-300">
+                      <div className="w-1.5 h-1.5 bg-primary-400 rounded-full mt-1.5 mr-2 flex-shrink-0"></div>
+                      <span className="text-xs lg:text-sm leading-tight">{product}</span>
                     </li>
                   ))}
+                  {category.products.length > 3 && (
+                    <li className="text-xs text-primary-500 dark:text-primary-400 font-medium pt-1">
+                      +{category.products.length - 3} more items
+                    </li>
+                  )}
                 </ul>
               </div>
             ))}
@@ -190,13 +196,13 @@ const Products = () => {
               <p className="text-neutral-600 text-sm">Makeup that stays perfect throughout your entire event</p>
             </div>
           </div>
-          
+
           <p className="text-lg text-neutral-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-            I invest in the best products because you deserve nothing less than perfection. 
-            Every product in my kit is carefully selected for its quality, performance, and ability 
+            I invest in the best products because you deserve nothing less than perfection.
+            Every product in my kit is carefully selected for its quality, performance, and ability
             to create stunning, camera-ready results.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={handleBookConsultation}
@@ -217,12 +223,12 @@ const Products = () => {
             <h4 className="font-display font-semibold text-neutral-800 mb-2">Allergy-Friendly</h4>
             <p className="text-neutral-600 text-sm">Hypoallergenic options available for sensitive skin</p>
           </div>
-          <div className="animate-fade-in" style={{animationDelay: '0.2s'}}>
+          <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <div className="text-3xl mb-4">🌿</div>
             <h4 className="font-display font-semibold text-neutral-800 mb-2">Cruelty-Free</h4>
             <p className="text-neutral-600 text-sm">All brands are cruelty-free and ethically sourced</p>
           </div>
-          <div className="animate-fade-in" style={{animationDelay: '0.4s'}}>
+          <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
             <div className="text-3xl mb-4">📸</div>
             <h4 className="font-display font-semibold text-neutral-800 mb-2">Camera-Ready</h4>
             <p className="text-neutral-600 text-sm">Products specifically chosen for photography and videography</p>
