@@ -32,7 +32,7 @@ const Contact = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* CTA Section */}
-          <ScrollAnimationWrapper animation="slide-up" delay={400}>
+          <ScrollAnimationWrapper animation="slide-up" delay={200}>
             <div className="bg-white dark:bg-neutral-700 rounded-3xl shadow-2xl p-12 text-center">
               <div className="text-6xl mb-8">💄</div>
               <h3 className="text-3xl font-display font-semibold text-neutral-800 dark:text-white mb-6">
@@ -83,7 +83,7 @@ const Contact = () => {
           </ScrollAnimationWrapper>
 
           {/* Info Section */}
-          <ScrollAnimationWrapper animation="slide-up" delay={600}>
+          <ScrollAnimationWrapper animation="slide-up" delay={300}>
             <div className="space-y-8">
             {/* Service Areas */}
             <div className="bg-white rounded-3xl shadow-lg p-8">

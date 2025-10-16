@@ -69,7 +69,7 @@ const Services = ({ onViewPortfolio }) => {
     <section id="services" className="section-padding bg-neutral-50 dark:bg-neutral-800">
       <div className="container-custom">
         {/* Header */}
-        <ScrollAnimationWrapper animation="fade-in" delay={200}>
+        <ScrollAnimationWrapper animation="fade-in" delay={100}>
           <div className="text-center mb-16">
           <h2 className="font-display text-neutral-800 dark:text-white mb-6">
             My <span className="text-gradient">Services</span>
@@ -87,7 +87,7 @@ const Services = ({ onViewPortfolio }) => {
             <ScrollAnimationWrapper 
               key={index}
               animation="scale-in" 
-              delay={index * 150 + 600}
+              delay={Math.min(index * 100 + 300, 600)} // Faster, capped delays
             >
               <div
                 className={`relative bg-white dark:bg-neutral-700 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden card-hover ${service.popular ? 'ring-2 ring-primary-200 dark:ring-primary-400' : ''

@@ -110,7 +110,7 @@ const Footer = () => {
         </ScrollAnimationWrapper>
 
         {/* Bottom Bar */}
-        <ScrollAnimationWrapper animation="slide-up" delay={400}>
+        <ScrollAnimationWrapper animation="slide-up" delay={200}>
           <div className="border-t border-neutral-700 mt-16 pt-8">
             <div className="flex flex-col lg:flex-row justify-between items-center">
             <p className="text-neutral-400 text-sm mb-4 lg:mb-0">

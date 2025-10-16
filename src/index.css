@@ -78,6 +78,8 @@
     @apply bg-gradient-to-t from-black/70 via-black/20 to-transparent;
   }
 }
+
+@layer utilities {
   /* Lightbox specific styles */
   .lightbox-overlay {
     backdrop-filter: blur(2px);
@@ -89,7 +91,12 @@
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    touch-action: pan-x pan-y;
+    touch-action: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
   }
   
   /* Prevent text selection during swipe */
@@ -104,8 +111,9 @@
   .nav-button {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-  } 
- /* Zoom and pan specific styles */
+  }
+  
+  /* Zoom and pan specific styles */
   .zoom-container {
     overflow: hidden;
     position: relative;
@@ -121,11 +129,70 @@
     -webkit-backdrop-filter: blur(8px);
   }
   
-  /* Prevent image selection and dragging */
-  .lightbox-image {
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
-    user-drag: none;
+  /* Performance optimizations */
+  .card-hover {
+    will-change: transform, box-shadow;
+    backface-visibility: hidden;
+    transform: translateZ(0);
   }
+  
+  /* Faster image loading */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  /* Optimize animations */
+  .animate-scale-in,
+  .animate-fade-in,
+  .animate-slide-up {
+    will-change: transform, opacity;
+  }
+  
+  /* Loading placeholder animation */
+  .loading-shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200px 100%;
+    animation: shimmer 1.5s infinite;
+  }
+  
+  /* Touch optimization for pinch-to-zoom */
+  .touch-pan-x {
+    touch-action: pan-x;
+  }
+  
+  .touch-pan-y {
+    touch-action: pan-y;
+  }
+  
+  /* Prevent default touch behaviors on lightbox */
+  .lightbox-container {
+    touch-action: manipulation;
+  }
+  
+  /* Smooth pinch zoom */
+  .pinch-zoom {
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+}
+
+/* Loading placeholder animation keyframes */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+/* Optimize for mobile touch */
+@media (hover: none) and (pointer: coarse) {
+  .lightbox-image {
+    touch-action: none;
+  }
+}

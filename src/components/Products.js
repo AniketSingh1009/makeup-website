@@ -118,7 +118,7 @@ const Products = () => {
 
         {/* Featured Brands */}
         <div className="mb-20">
-          <ScrollAnimationWrapper animation="slide-up" delay={400}>
+          <ScrollAnimationWrapper animation="slide-up" delay={200}>
             <h3 className="text-2xl font-display font-semibold text-center text-neutral-800 mb-12">
               Trusted Brand Partners
             </h3>
@@ -128,7 +128,7 @@ const Products = () => {
               <ScrollAnimationWrapper 
                 key={index}
                 animation="scale-in" 
-                delay={600 + (index * 100)}
+                delay={Math.min(300 + (index * 50), 600)}
               >
                 <div className="bg-white dark:bg-neutral-700 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover text-center">
                   <div className="h-16 flex items-center justify-center mb-4">
@@ -147,7 +147,7 @@ const Products = () => {
 
         {/* Product Categories */}
         <div className="mb-16">
-          <ScrollAnimationWrapper animation="slide-up" delay={800}>
+          <ScrollAnimationWrapper animation="slide-up" delay={400}>
             <h3 className="text-xl font-display font-semibold text-center text-neutral-800 dark:text-white mb-8">
               Professional Product Categories
             </h3>
@@ -157,7 +157,7 @@ const Products = () => {
               <ScrollAnimationWrapper 
                 key={index}
                 animation="slide-up" 
-                delay={1000 + (index * 150)}
+                delay={Math.min(500 + (index * 75), 700)}
               >
                 <div className="bg-white dark:bg-neutral-700 rounded-2xl p-4 lg:p-6 shadow-md hover:shadow-xl transition-all duration-300 card-hover group">
                   <div className="text-center mb-4">
@@ -186,7 +186,7 @@ const Products = () => {
         </div>
 
         {/* Quality Promise */}
-        <ScrollAnimationWrapper animation="scale-in" delay={1200}>
+        <ScrollAnimationWrapper animation="scale-in" delay={600}>
           <div className="bg-white rounded-3xl shadow-2xl p-12 text-center">
           <div className="text-5xl mb-8">✨</div>
           <h3 className="text-3xl font-display font-semibold text-neutral-800 mb-6">
@@ -232,21 +232,21 @@ const Products = () => {
 
         {/* Additional Info */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-          <ScrollAnimationWrapper animation="fade-in" delay={1400}>
+          <ScrollAnimationWrapper animation="fade-in" delay={700}>
             <div>
               <div className="text-3xl mb-4">🛡️</div>
               <h4 className="font-display font-semibold text-neutral-800 mb-2">Allergy-Friendly</h4>
               <p className="text-neutral-600 text-sm">Hypoallergenic options available for sensitive skin</p>
             </div>
           </ScrollAnimationWrapper>
-          <ScrollAnimationWrapper animation="fade-in" delay={1600}>
+          <ScrollAnimationWrapper animation="fade-in" delay={750}>
             <div>
               <div className="text-3xl mb-4">🌿</div>
               <h4 className="font-display font-semibold text-neutral-800 mb-2">Cruelty-Free</h4>
               <p className="text-neutral-600 text-sm">All brands are cruelty-free and ethically sourced</p>
             </div>
           </ScrollAnimationWrapper>
-          <ScrollAnimationWrapper animation="fade-in" delay={1800}>
+          <ScrollAnimationWrapper animation="fade-in" delay={800}>
             <div>
               <div className="text-3xl mb-4">📸</div>
               <h4 className="font-display font-semibold text-neutral-800 mb-2">Camera-Ready</h4>

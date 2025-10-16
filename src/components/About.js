@@ -13,7 +13,7 @@ const About = ({ onViewPortfolio }) => {
       <div className="container-custom">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
           {/* Image */}
-          <ScrollAnimationWrapper animation="slide-right" delay={200}>
+          <ScrollAnimationWrapper animation="slide-right" delay={100}>
             <div className="relative">
             {/* Main Image Container with Beautiful Border */}
             <div className="relative p-4 bg-gradient-to-br from-primary-100 via-white to-gold-100 dark:from-primary-900/20 dark:via-neutral-800 dark:to-gold-900/20 rounded-3xl shadow-2xl">
@@ -56,7 +56,7 @@ const About = ({ onViewPortfolio }) => {
           </ScrollAnimationWrapper>
 
           {/* Content */}
-          <ScrollAnimationWrapper animation="slide-left" delay={400}>
+          <ScrollAnimationWrapper animation="slide-left" delay={200}>
             <div>
               <div className="mb-8">
               <h2 className="font-display text-neutral-800 dark:text-white mb-6">

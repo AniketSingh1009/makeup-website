@@ -70,6 +70,13 @@ const Portfolio = ({ onClose }) => {
       alt: `Makeup artistry work ${index + 1}`
     }));
     setPortfolioImages(images);
+
+    // Preload first few images for faster display
+    const preloadImages = images.slice(0, 8); // Preload first 8 images
+    preloadImages.forEach(item => {
+      const img = new Image();
+      img.src = item.image;
+    });
   }, []);
 
   // Prevent background scrolling when lightbox is open
@@ -186,6 +193,40 @@ const Portfolio = ({ onClose }) => {
     }
   };
 
+  // Calculate distance between two touch points
+  const getTouchDistance = (touches) => {
+    const touch1 = touches[0];
+    const touch2 = touches[1];
+    return Math.sqrt(
+      Math.pow(touch2.clientX - touch1.clientX, 2) +
+      Math.pow(touch2.clientY - touch1.clientY, 2)
+    );
+  };
+
+  // Handle pinch zoom
+  const handlePinchZoom = (touches) => {
+    if (touches.length !== 2) return;
+
+    const currentDistance = getTouchDistance(touches);
+
+    if (initialPinchDistance === null) {
+      setInitialPinchDistance(currentDistance);
+      setInitialZoomLevel(zoomLevel);
+      return;
+    }
+
+    const scale = currentDistance / initialPinchDistance;
+    const newZoom = Math.max(1, Math.min(3, initialZoomLevel * scale));
+
+    setZoomLevel(newZoom);
+
+    // Show drag hint when first zooming in via pinch
+    if (initialZoomLevel === 1 && newZoom > 1 && !showDragHint) {
+      setShowDragHint(true);
+      setTimeout(() => setShowDragHint(false), 3000);
+    }
+  };
+
   // Keyboard navigation and zoom
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -258,58 +299,94 @@ const Portfolio = ({ onClose }) => {
   const [touchStartPos, setTouchStartPos] = useState({ x: 0, y: 0 });
   const [isTouchDragging, setIsTouchDragging] = useState(false);
 
+  // Pinch-to-zoom handling
+  const [initialPinchDistance, setInitialPinchDistance] = useState(null);
+  const [initialZoomLevel, setInitialZoomLevel] = useState(1);
+  const [isPinching, setIsPinching] = useState(false);
+
   const minSwipeDistance = 50;
 
   const onTouchStart = (e) => {
-    const touch = e.targetTouches[0];
-    setTouchEnd(null);
-    setTouchStart(touch.clientX);
-    setTouchStartPos({ x: touch.clientX, y: touch.clientY });
+    const touches = e.targetTouches;
 
-    if (zoomLevel > 1) {
-      setIsTouchDragging(true);
-      setDragStart({
-        x: touch.clientX - imagePosition.x,
-        y: touch.clientY - imagePosition.y
-      });
+    if (touches.length === 2) {
+      // Two finger pinch
+      setIsPinching(true);
+      setInitialPinchDistance(getTouchDistance(touches));
+      setInitialZoomLevel(zoomLevel);
+      e.preventDefault();
+    } else if (touches.length === 1) {
+      // Single finger touch
+      const touch = touches[0];
+      setTouchEnd(null);
+      setTouchStart(touch.clientX);
+      setTouchStartPos({ x: touch.clientX, y: touch.clientY });
+
+      if (zoomLevel > 1) {
+        setIsTouchDragging(true);
+        setDragStart({
+          x: touch.clientX - imagePosition.x,
+          y: touch.clientY - imagePosition.y
+        });
+      }
     }
   };
 
   const onTouchMove = (e) => {
-    const touch = e.targetTouches[0];
-    setTouchEnd(touch.clientX);
+    const touches = e.targetTouches;
 
-    if (isTouchDragging && zoomLevel > 1) {
-      e.preventDefault(); // Prevent scrolling
-      const newX = touch.clientX - dragStart.x;
-      const newY = touch.clientY - dragStart.y;
+    if (touches.length === 2 && isPinching) {
+      // Handle pinch zoom
+      e.preventDefault();
+      handlePinchZoom(touches);
+    } else if (touches.length === 1 && !isPinching) {
+      // Handle single finger pan/swipe
+      const touch = touches[0];
+      setTouchEnd(touch.clientX);
 
-      // Apply bounds to prevent panning too far
-      const maxPan = 200 * zoomLevel;
-      const boundedX = Math.max(-maxPan, Math.min(maxPan, newX));
-      const boundedY = Math.max(-maxPan, Math.min(maxPan, newY));
+      if (isTouchDragging && zoomLevel > 1) {
+        e.preventDefault(); // Prevent scrolling
+        const newX = touch.clientX - dragStart.x;
+        const newY = touch.clientY - dragStart.y;
 
-      setImagePosition({
-        x: boundedX,
-        y: boundedY
-      });
+        // Apply bounds to prevent panning too far
+        const maxPan = 200 * zoomLevel;
+        const boundedX = Math.max(-maxPan, Math.min(maxPan, newX));
+        const boundedY = Math.max(-maxPan, Math.min(maxPan, newY));
+
+        setImagePosition({
+          x: boundedX,
+          y: boundedY
+        });
+      }
     }
   };
 
-  const onTouchEnd = () => {
-    setIsTouchDragging(false);
+  const onTouchEnd = (e) => {
+    const touches = e.targetTouches;
 
-    // Only handle swipe navigation if not zoomed and not dragging
-    if (zoomLevel === 1 && touchStart && touchEnd) {
-      const distance = touchStart - touchEnd;
-      const isLeftSwipe = distance > minSwipeDistance;
-      const isRightSwipe = distance < -minSwipeDistance;
+    if (touches.length === 0) {
+      // All fingers lifted
+      setIsPinching(false);
+      setInitialPinchDistance(null);
+      setIsTouchDragging(false);
 
-      if (isLeftSwipe) {
-        navigateToNext();
-      } else if (isRightSwipe) {
-        navigateToPrevious();
+      // Only handle swipe navigation if not zoomed and not pinching
+      if (zoomLevel === 1 && !isPinching && touchStart && touchEnd) {
+        const distance = touchStart - touchEnd;
+        const isLeftSwipe = distance > minSwipeDistance;
+        const isRightSwipe = distance < -minSwipeDistance;
+
+        if (isLeftSwipe) {
+          navigateToNext();
+        } else if (isRightSwipe) {
+          navigateToPrevious();
+        }
       }
+    } else if (touches.length === 1 && isPinching) {
+      // One finger lifted during pinch, stop pinching
+      setIsPinching(false);
+      setInitialPinchDistance(null);
     }
   };
 
@@ -342,7 +419,7 @@ const Portfolio = ({ onClose }) => {
           </button>
         </div>
 
-        <ScrollAnimationWrapper animation="fade-in" delay={200}>
+        <ScrollAnimationWrapper animation="fade-in" delay={100}>
           <div className="text-center mb-16">
             <h2 className="font-display text-neutral-800 dark:text-white mb-6">
               My <span className="text-gradient">Portfolio</span>
@@ -360,39 +437,56 @@ const Portfolio = ({ onClose }) => {
             <ScrollAnimationWrapper
               key={item.id}
               animation="scale-in"
-              delay={400 + (index * 100)}
+              delay={Math.min(200 + (index * 50), 800)} // Faster, capped delays
             >
               <div
                 className="group cursor-pointer card-hover"
                 onClick={() => openLightbox(item, index)}
               >
                 <div className="relative overflow-hidden rounded-2xl shadow-lg bg-neutral-100">
+                  {/* Loading placeholder */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-neutral-200 via-neutral-100 to-neutral-200 animate-pulse">
+                    <div className="w-full h-64 sm:h-72 md:h-80 flex items-center justify-center">
+                      <div className="text-neutral-400">
+                        <svg className="w-8 h-8 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
                   <img
                     src={item.image}
                     alt={item.alt}
-                    className="w-full h-64 sm:h-72 md:h-80 object-cover group-hover:scale-110 transition-transform duration-700"
+                    className="w-full h-64 sm:h-72 md:h-80 object-cover group-hover:scale-110 transition-transform duration-500 relative z-10"
+                    loading={index < 4 ? "eager" : "lazy"} // Eager load first 4 images
+                    onLoad={(e) => {
+                      // Hide loading placeholder when image loads
+                      e.target.previousElementSibling.style.display = 'none';
+                    }}
                     onError={(e) => {
                       e.target.style.display = 'none';
-                      e.target.nextSibling.style.display = 'flex';
+                      e.target.nextElementSibling.style.display = 'flex';
                     }}
                   />
+
                   {/* Fallback for missing images */}
-                  <div className="hidden w-full h-64 sm:h-72 md:h-80 bg-neutral-200 dark:bg-neutral-600 items-center justify-center">
+                  <div className="hidden w-full h-64 sm:h-72 md:h-80 bg-neutral-200 dark:bg-neutral-600 items-center justify-center absolute inset-0 z-10">
                     <div className="text-center text-neutral-500 dark:text-neutral-400">
                       <svg className="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                       <p className="text-sm">Image not found</p>
                     </div>
                   </div>
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
-                    <div className="absolute bottom-4 left-4 right-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 z-20">
+                    <div className="absolute bottom-4 left-4 right-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                       <h3 className="text-sm font-semibold">{item.title}</h3>
                     </div>
                   </div>
 
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-200 z-20">
                     <div className="bg-white/20 backdrop-blur-sm rounded-full p-2">
                       <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -500,25 +594,27 @@ const Portfolio = ({ onClose }) => {
 
               {/* Main Image Container */}
               <div
-                className="overflow-hidden rounded-lg"
+                className="overflow-hidden rounded-lg touch-pan-x touch-pan-y"
                 onWheel={handleWheel}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseUp}
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
+                style={{ touchAction: isPinching ? 'none' : 'auto' }}
               >
                 <img
                   src={selectedImage.image}
                   alt={selectedImage.alt}
                   className={`max-w-full max-h-[80vh] object-contain rounded-lg animate-scale-in lightbox-image transition-transform duration-200 ${zoomLevel > 1 ? 'cursor-grab' : 'cursor-default'
-                    } ${isDragging ? 'cursor-grabbing' : ''}`}
+                    } ${isDragging || isPinching ? 'cursor-grabbing' : ''}`}
                   style={{
                     transform: `scale(${zoomLevel}) translate(${imagePosition.x / zoomLevel}px, ${imagePosition.y / zoomLevel}px)`,
-                    transformOrigin: 'center center'
+                    transformOrigin: 'center center',
+                    touchAction: 'none'
                   }}
                   onMouseDown={handleMouseDown}
-                  onTouchStart={onTouchStart}
-                  onTouchMove={onTouchMove}
-                  onTouchEnd={onTouchEnd}
                   draggable={false}
                 />
               </div>
@@ -527,7 +623,7 @@ const Portfolio = ({ onClose }) => {
               {showDragHint && (
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/70 text-white px-4 py-2 rounded-lg animate-fade-in z-20">
                   <p className="text-sm font-medium">
-                    📱 Drag to pan around • 🖱️ Click and drag
+                    🤏 Pinch to zoom • 📱 Drag to pan • 🖱️ Click and drag
                   </p>
                 </div>
               )}
