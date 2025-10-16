@@ -78,3 +78,54 @@
     @apply bg-gradient-to-t from-black/70 via-black/20 to-transparent;
   }
 }
+  /* Lightbox specific styles */
+  .lightbox-overlay {
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+  
+  .lightbox-image {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    touch-action: pan-x pan-y;
+  }
+  
+  /* Prevent text selection during swipe */
+  .lightbox-container * {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+  
+  /* Smooth navigation button animations */
+  .nav-button {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  } 
+ /* Zoom and pan specific styles */
+  .zoom-container {
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .zoomable-image {
+    transition: transform 0.2s ease-out;
+    will-change: transform;
+  }
+  
+  .zoom-controls {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  
+  /* Prevent image selection and dragging */
+  .lightbox-image {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+  }

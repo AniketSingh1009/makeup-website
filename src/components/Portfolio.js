@@ -3,7 +3,13 @@ import ScrollAnimationWrapper from './ScrollAnimationWrapper';
 
 const Portfolio = ({ onClose }) => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [portfolioImages, setPortfolioImages] = useState([]);
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [showDragHint, setShowDragHint] = useState(false);
 
   // Generate image list from public/pictures folder
   // You can manually add image names here or use a dynamic approach
@@ -66,6 +72,247 @@ const Portfolio = ({ onClose }) => {
     setPortfolioImages(images);
   }, []);
 
+  // Prevent background scrolling when lightbox is open
+  useEffect(() => {
+    if (selectedImage) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedImage]);
+
+  // Navigation functions
+  const openLightbox = (image, index) => {
+    setSelectedImage(image);
+    setSelectedImageIndex(index);
+  };
+
+  const closeLightbox = () => {
+    setSelectedImage(null);
+    setSelectedImageIndex(0);
+    setZoomLevel(1);
+    setImagePosition({ x: 0, y: 0 });
+  };
+
+  const navigateToNext = () => {
+    const nextIndex = (selectedImageIndex + 1) % portfolioImages.length;
+    setSelectedImageIndex(nextIndex);
+    setSelectedImage(portfolioImages[nextIndex]);
+    setZoomLevel(1);
+    setImagePosition({ x: 0, y: 0 });
+  };
+
+  const navigateToPrevious = () => {
+    const prevIndex = selectedImageIndex === 0 ? portfolioImages.length - 1 : selectedImageIndex - 1;
+    setSelectedImageIndex(prevIndex);
+    setSelectedImage(portfolioImages[prevIndex]);
+    setZoomLevel(1);
+    setImagePosition({ x: 0, y: 0 });
+  };
+
+  // Zoom functions
+  const zoomIn = () => {
+    const newZoom = Math.min(zoomLevel + 0.5, 3);
+    setZoomLevel(newZoom);
+
+    // Show drag hint when first zooming in
+    if (zoomLevel === 1 && newZoom > 1) {
+      setShowDragHint(true);
+      setTimeout(() => setShowDragHint(false), 3000);
+    }
+  };
+
+  const zoomOut = () => {
+    setZoomLevel(prev => {
+      const newZoom = Math.max(prev - 0.5, 1);
+      if (newZoom === 1) {
+        setImagePosition({ x: 0, y: 0 });
+        setShowDragHint(false);
+      }
+      return newZoom;
+    });
+  };
+
+  const resetZoom = () => {
+    setZoomLevel(1);
+    setImagePosition({ x: 0, y: 0 });
+    setShowDragHint(false);
+  };
+
+  // Mouse drag functions
+  const handleMouseDown = (e) => {
+    if (zoomLevel > 1) {
+      setIsDragging(true);
+      setDragStart({
+        x: e.clientX - imagePosition.x,
+        y: e.clientY - imagePosition.y
+      });
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    if (isDragging && zoomLevel > 1) {
+      const newX = e.clientX - dragStart.x;
+      const newY = e.clientY - dragStart.y;
+
+      // Apply bounds to prevent panning too far
+      const maxPan = 200 * zoomLevel;
+      const boundedX = Math.max(-maxPan, Math.min(maxPan, newX));
+      const boundedY = Math.max(-maxPan, Math.min(maxPan, newY));
+
+      setImagePosition({
+        x: boundedX,
+        y: boundedY
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  // Wheel zoom
+  const handleWheel = (e) => {
+    e.preventDefault();
+    if (e.deltaY < 0) {
+      zoomIn();
+    } else {
+      zoomOut();
+    }
+  };
+
+  // Keyboard navigation and zoom
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (!selectedImage) return;
+
+      // Pan movement when zoomed in
+      if (zoomLevel > 1) {
+        const panStep = 50; // pixels to move per keypress
+        const maxPan = 200 * zoomLevel;
+
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          setImagePosition(prev => ({
+            ...prev,
+            x: Math.max(-maxPan, prev.x - panStep)
+          }));
+          return;
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          setImagePosition(prev => ({
+            ...prev,
+            x: Math.min(maxPan, prev.x + panStep)
+          }));
+          return;
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          setImagePosition(prev => ({
+            ...prev,
+            y: Math.min(maxPan, prev.y + panStep)
+          }));
+          return;
+        } else if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          setImagePosition(prev => ({
+            ...prev,
+            y: Math.max(-maxPan, prev.y - panStep)
+          }));
+          return;
+        }
+      }
+
+      // Image navigation when not zoomed
+      if (zoomLevel === 1) {
+        if (e.key === 'ArrowRight') {
+          navigateToNext();
+        } else if (e.key === 'ArrowLeft') {
+          navigateToPrevious();
+        }
+      }
+
+      // Zoom and other controls (work regardless of zoom level)
+      if (e.key === 'Escape') {
+        closeLightbox();
+      } else if (e.key === '+' || e.key === '=') {
+        zoomIn();
+      } else if (e.key === '-') {
+        zoomOut();
+      } else if (e.key === '0') {
+        resetZoom();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [selectedImage, selectedImageIndex, portfolioImages, zoomLevel, imagePosition]);
+
+  // Touch/swipe handling
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const [touchStartPos, setTouchStartPos] = useState({ x: 0, y: 0 });
+  const [isTouchDragging, setIsTouchDragging] = useState(false);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    const touch = e.targetTouches[0];
+    setTouchEnd(null);
+    setTouchStart(touch.clientX);
+    setTouchStartPos({ x: touch.clientX, y: touch.clientY });
+
+    if (zoomLevel > 1) {
+      setIsTouchDragging(true);
+      setDragStart({
+        x: touch.clientX - imagePosition.x,
+        y: touch.clientY - imagePosition.y
+      });
+    }
+  };
+
+  const onTouchMove = (e) => {
+    const touch = e.targetTouches[0];
+    setTouchEnd(touch.clientX);
+
+    if (isTouchDragging && zoomLevel > 1) {
+      e.preventDefault(); // Prevent scrolling
+      const newX = touch.clientX - dragStart.x;
+      const newY = touch.clientY - dragStart.y;
+
+      // Apply bounds to prevent panning too far
+      const maxPan = 200 * zoomLevel;
+      const boundedX = Math.max(-maxPan, Math.min(maxPan, newX));
+      const boundedY = Math.max(-maxPan, Math.min(maxPan, newY));
+
+      setImagePosition({
+        x: boundedX,
+        y: boundedY
+      });
+    }
+  };
+
+  const onTouchEnd = () => {
+    setIsTouchDragging(false);
+
+    // Only handle swipe navigation if not zoomed and not dragging
+    if (zoomLevel === 1 && touchStart && touchEnd) {
+      const distance = touchStart - touchEnd;
+      const isLeftSwipe = distance > minSwipeDistance;
+      const isRightSwipe = distance < -minSwipeDistance;
+
+      if (isLeftSwipe) {
+        navigateToNext();
+      } else if (isRightSwipe) {
+        navigateToPrevious();
+      }
+    }
+  };
+
   return (
     <section id="portfolio" className="section-padding bg-neutral-50 dark:bg-neutral-800">
       <div className="container-custom">
@@ -117,7 +364,7 @@ const Portfolio = ({ onClose }) => {
             >
               <div
                 className="group cursor-pointer card-hover"
-                onClick={() => setSelectedImage(item)}
+                onClick={() => openLightbox(item, index)}
               >
                 <div className="relative overflow-hidden rounded-2xl shadow-lg bg-neutral-100">
                   <img
@@ -171,29 +418,134 @@ const Portfolio = ({ onClose }) => {
           </div>
         )}
 
-        {/* Lightbox Modal */}
+        {/* Enhanced Lightbox Modal with Navigation */}
         {selectedImage && (
           <div
-            className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 animate-fade-in"
-            onClick={() => setSelectedImage(null)}
+            className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 animate-fade-in lightbox-overlay"
+            onClick={closeLightbox}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
           >
-            <div className="relative max-w-5xl max-h-full" onClick={(e) => e.stopPropagation()}>
+            <div className="relative max-w-5xl max-h-full lightbox-container" onClick={(e) => e.stopPropagation()}>
+              {/* Close Button */}
               <button
-                onClick={() => setSelectedImage(null)}
+                onClick={closeLightbox}
                 className="absolute -top-12 right-0 text-white hover:text-primary-400 transition-colors z-10"
               >
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
-              <img
-                src={selectedImage.image}
-                alt={selectedImage.alt}
-                className="max-w-full max-h-[80vh] object-contain rounded-lg animate-scale-in"
-              />
+
+              {/* Zoom Controls */}
+              <div className="absolute -top-12 left-0 flex space-x-2 z-10">
+                <button
+                  onClick={zoomIn}
+                  className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-300 hover:scale-110 nav-button"
+                  title="Zoom In (+)"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                </button>
+                <button
+                  onClick={zoomOut}
+                  className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-300 hover:scale-110 nav-button"
+                  title="Zoom Out (-)"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 12H6" />
+                  </svg>
+                </button>
+                <button
+                  onClick={resetZoom}
+                  className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-300 hover:scale-110 nav-button"
+                  title="Reset Zoom (0)"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                </button>
+                <div className="bg-black/50 text-white px-3 py-2 rounded-full text-sm">
+                  {Math.round(zoomLevel * 100)}%
+                </div>
+              </div>
+
+
+
+              {/* Previous Button */}
+              {portfolioImages.length > 1 && (
+                <button
+                  onClick={navigateToPrevious}
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-300 hover:scale-110 z-10 nav-button"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+              )}
+
+              {/* Next Button */}
+              {portfolioImages.length > 1 && (
+                <button
+                  onClick={navigateToNext}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-300 hover:scale-110 z-10 nav-button"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              )}
+
+              {/* Main Image Container */}
+              <div
+                className="overflow-hidden rounded-lg"
+                onWheel={handleWheel}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+              >
+                <img
+                  src={selectedImage.image}
+                  alt={selectedImage.alt}
+                  className={`max-w-full max-h-[80vh] object-contain rounded-lg animate-scale-in lightbox-image transition-transform duration-200 ${zoomLevel > 1 ? 'cursor-grab' : 'cursor-default'
+                    } ${isDragging ? 'cursor-grabbing' : ''}`}
+                  style={{
+                    transform: `scale(${zoomLevel}) translate(${imagePosition.x / zoomLevel}px, ${imagePosition.y / zoomLevel}px)`,
+                    transformOrigin: 'center center'
+                  }}
+                  onMouseDown={handleMouseDown}
+                  onTouchStart={onTouchStart}
+                  onTouchMove={onTouchMove}
+                  onTouchEnd={onTouchEnd}
+                  draggable={false}
+                />
+              </div>
+
+              {/* Drag Hint - Shows when first zooming */}
+              {showDragHint && (
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/70 text-white px-4 py-2 rounded-lg animate-fade-in z-20">
+                  <p className="text-sm font-medium">
+                    📱 Drag to pan around • 🖱️ Click and drag
+                  </p>
+                </div>
+              )}
+
+              {/* Image Info */}
               <div className="text-center mt-6 animate-slide-up">
                 <h3 className="text-2xl font-display text-white mb-2">{selectedImage.title}</h3>
                 <p className="text-neutral-300">Professional makeup artistry work</p>
+              </div>
+
+              {/* Keyboard Instructions - Hidden on Mobile */}
+              <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 text-center hidden md:block">
+                <p className="text-neutral-400 text-sm">
+                  {zoomLevel > 1
+                    ? "Arrow keys: Pan • + - Zoom • 0 Reset • ESC Close • Scroll to zoom • Drag to pan"
+                    : "← → Navigate • + - Zoom • 0 Reset • ESC Close • Scroll to zoom • Drag to pan"
+                  }
+                </p>
               </div>
             </div>
           </div>

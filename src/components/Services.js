@@ -99,13 +99,13 @@ const Services = ({ onViewPortfolio }) => {
                   </div>
                 )}
 
-                <div className="p-8">
-                <div className="text-5xl mb-6">{service.icon}</div>
-                <h3 className="text-2xl font-display font-semibold text-neutral-800 dark:text-white mb-4">{service.title}</h3>
-                <p className="text-neutral-600 dark:text-neutral-300 mb-6 leading-relaxed">{service.description}</p>
+                <div className="p-6">
+                <div className="text-4xl mb-4">{service.icon}</div>
+                <h3 className="text-xl font-display font-semibold text-neutral-800 dark:text-white mb-3">{service.title}</h3>
+                <p className="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed text-sm">{service.description}</p>
 
                 {/* Duration */}
-                <div className="flex items-center mb-6 text-sm text-neutral-500 dark:text-neutral-400">
+                <div className="flex items-center mb-4 text-sm text-neutral-500 dark:text-neutral-400">
                   <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
@@ -113,28 +113,33 @@ const Services = ({ onViewPortfolio }) => {
                 </div>
 
                 {/* Features */}
-                <ul className="space-y-3 mb-8">
-                  {service.features.map((feature, featureIndex) => (
+                <ul className="space-y-2 mb-6">
+                  {service.features.slice(0, 3).map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-start text-neutral-700">
-                      <div className="w-2 h-2 bg-primary-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span className="text-sm text-neutral-700 dark:text-neutral-300">{feature}</span>
+                      <div className="w-1.5 h-1.5 bg-primary-400 rounded-full mt-1.5 mr-2 flex-shrink-0"></div>
+                      <span className="text-xs text-neutral-700 dark:text-neutral-300">{feature}</span>
                     </li>
                   ))}
+                  {service.features.length > 3 && (
+                    <li className="text-xs text-primary-500 dark:text-primary-400 font-medium">
+                      +{service.features.length - 3} more features
+                    </li>
+                  )}
                 </ul>
 
                 {/* Price and CTA */}
-                <div className="border-t border-neutral-100 dark:border-neutral-600 pt-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-2xl font-display font-bold text-primary-600">{service.price}</span>
+                <div className="border-t border-neutral-100 dark:border-neutral-600 pt-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xl font-display font-bold text-primary-600">{service.price}</span>
                   </div>
                   <button
                     onClick={() => handleBookService(service.title)}
-                    className={`w-full py-3 px-6 rounded-full font-medium transition-all duration-300 transform hover:scale-105 ${service.popular
+                    className={`w-full py-2.5 px-4 rounded-full font-medium text-sm transition-all duration-300 transform hover:scale-105 ${service.popular
                       ? 'bg-gradient-to-r from-primary-500 to-gold-500 text-white shadow-lg hover:shadow-xl'
                       : 'bg-primary-500 hover:bg-primary-600 text-white'
                       }`}
                   >
-                    Book {service.title}
+                    Book Now
                   </button>
                 </div>
                 </div>
