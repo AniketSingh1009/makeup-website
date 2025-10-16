@@ -46,11 +46,6 @@ const Portfolio = ({ onClose }) => {
     'IMG-20241023-WA0027.jpg',
     'b9.jpg',
     //  'IMG-20241023-WA0003.jpg',
-
-
-
-
-
     // Add more image names as they exist in your public/pictures folder
     // For example:
     // 'image1.jpg',
