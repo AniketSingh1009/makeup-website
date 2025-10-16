@@ -1,4 +1,5 @@
 import React from 'react';
+import ScrollAnimationWrapper from './ScrollAnimationWrapper';
 
 const About = ({ onViewPortfolio }) => {
   const handleBookConsultation = () => {
@@ -12,7 +13,8 @@ const About = ({ onViewPortfolio }) => {
       <div className="container-custom">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
           {/* Image */}
-          <div className="relative animate-fade-in">
+          <ScrollAnimationWrapper animation="slide-right" delay={200}>
+            <div className="relative">
             {/* Main Image Container with Beautiful Border */}
             <div className="relative p-4 bg-gradient-to-br from-primary-100 via-white to-gold-100 dark:from-primary-900/20 dark:via-neutral-800 dark:to-gold-900/20 rounded-3xl shadow-2xl">
               <div className="relative overflow-hidden rounded-2xl">
@@ -24,7 +26,7 @@ const About = ({ onViewPortfolio }) => {
                 {/* Elegant overlay gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent rounded-2xl"></div>
               </div>
-              
+
               {/* Decorative corner elements */}
               <div className="absolute -top-2 -left-2 w-16 h-16 bg-gradient-to-br from-primary-200 to-primary-300 dark:from-primary-700 dark:to-primary-800 rounded-full opacity-80"></div>
               <div className="absolute -bottom-2 -right-2 w-20 h-20 bg-gradient-to-br from-gold-200 to-gold-300 dark:from-gold-700 dark:to-gold-800 rounded-full opacity-60"></div>
@@ -41,7 +43,7 @@ const About = ({ onViewPortfolio }) => {
             {/* Awards Badge */}
             <div className="absolute top-6 -right-3 bg-gradient-to-r from-gold-400 to-gold-500 dark:from-gold-500 dark:to-gold-600 text-white p-4 rounded-2xl shadow-lg border-2 border-white dark:border-neutral-700">
               <div className="text-center">
-                <div className="text-lg font-bold mb-1">30+</div>
+                <div className="text-lg font-bold mb-1">100+</div>
                 <div className="text-xs">Happy Clients</div>
               </div>
             </div>
@@ -50,11 +52,13 @@ const About = ({ onViewPortfolio }) => {
             <div className="absolute top-1/2 -left-4 transform -translate-y-1/2 bg-white dark:bg-neutral-700 p-3 rounded-full shadow-lg border-2 border-primary-200 dark:border-primary-700">
               <div className="text-2xl">🖌️</div>
             </div>
-          </div>
+            </div>
+          </ScrollAnimationWrapper>
 
           {/* Content */}
-          <div className="animate-slide-up">
-            <div className="mb-8">
+          <ScrollAnimationWrapper animation="slide-left" delay={400}>
+            <div>
+              <div className="mb-8">
               <h2 className="font-display text-neutral-800 dark:text-white mb-6">
                 Meet Your <span className="text-gradient">Artist</span>
               </h2>
@@ -64,7 +68,7 @@ const About = ({ onViewPortfolio }) => {
             <div className="space-y-6 text-lg text-neutral-600 dark:text-neutral-300 leading-relaxed mb-10">
               <p>
                 Hello beautiful! I'm <span className="font-semibold text-neutral-800 dark:text-white"> Preety </span>,
-                a passionate makeup artist with over 5 years of experience creating stunning looks
+                a passionate makeup artist with over 4+ years of experience creating stunning looks
                 that celebrate your unique beauty. My journey began with a simple belief:
                 every person deserves to feel absolutely radiant.
               </p>
@@ -87,7 +91,7 @@ const About = ({ onViewPortfolio }) => {
                 {[
                   { icon: '💍', skill: 'Bridal Makeup' },
                   { icon: '📸', skill: 'Editorial Looks' },
-                  { icon: '🎭', skill: 'Airbrush Makeup' },
+                  { icon: '✨', skill: 'Airbrush Makeup' },
                   { icon: '✨', skill: 'Event Makeup' },
                   { icon: '🎨', skill: 'Color Theory' },
                   { icon: '👑', skill: 'Luxury Beauty' }
@@ -130,7 +134,8 @@ const About = ({ onViewPortfolio }) => {
                 Book Consultation
               </button>
             </div>
-          </div>
+            </div>
+          </ScrollAnimationWrapper>
         </div>
       </div>
     </section>

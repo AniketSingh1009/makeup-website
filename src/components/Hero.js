@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react';
+import FloatingParticles from './FloatingParticles';
 const Hero = ({ onViewPortfolio }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -45,6 +46,9 @@ const Hero = ({ onViewPortfolio }) => {
 
   return (
     <section id="home" className="relative h-screen overflow-hidden">
+      {/* Floating Particles */}
+      <FloatingParticles count={60} color="rgba(225, 132, 79, 0.4)" />
+      
       {/* Background Slider */}
       <div className="absolute inset-0">
         {slides.map((slide, index) => (
@@ -112,13 +116,24 @@ const Hero = ({ onViewPortfolio }) => {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-float z-20">
-        <div className="flex flex-col items-center text-white/80">
-          <span className="text-sm font-light mb-2">Scroll</span>
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce-slow z-20">
+        <div className="flex flex-col items-center text-white/80 bg-white/10 backdrop-blur-sm rounded-full px-4 py-3 border border-white/20">
+          <span className="text-sm font-light mb-1">Scroll</span>
+          <svg className="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
         </div>
+      </div>
+
+      {/* Floating makeup icons */}
+      <div className="absolute top-1/4 left-10 animate-float z-10 opacity-20">
+        <div className="text-4xl">💄</div>
+      </div>
+      <div className="absolute top-1/3 right-16 animate-float z-10 opacity-20" style={{animationDelay: '1s'}}>
+        <div className="text-3xl">🖌️</div>
+      </div>
+      <div className="absolute bottom-1/4 left-20 animate-float z-10 opacity-20" style={{animationDelay: '2s'}}>
+        <div className="text-3xl">✨</div>
       </div>
     </section>
   );

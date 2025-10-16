@@ -1,4 +1,6 @@
 
+import ScrollAnimationWrapper from './ScrollAnimationWrapper';
+
 const Products = () => {
   const brands = [
     {
@@ -102,79 +104,90 @@ const Products = () => {
     <section id="products" className="section-padding bg-gradient-to-br from-neutral-50 to-primary-50 dark:from-neutral-800 dark:to-primary-900/20">
       <div className="container-custom">
         {/* Header */}
-        <div className="text-center mb-16 animate-fade-in">
-          <h2 className="font-display text-neutral-800 dark:text-white mb-6">
-            Premium <span className="text-gradient">Products & Brands</span>
-          </h2>
-          <p className="text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto font-light leading-relaxed">
-            I work exclusively with high-end, professional-grade cosmetics from the world's most
-            trusted beauty brands to ensure flawless, long-lasting results.
-          </p>
-        </div>
+        <ScrollAnimationWrapper animation="fade-in" delay={200}>
+          <div className="text-center mb-16">
+            <h2 className="font-display text-neutral-800 dark:text-white mb-6">
+              Premium <span className="text-gradient">Products & Brands</span>
+            </h2>
+            <p className="text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto font-light leading-relaxed">
+              I work exclusively with high-end, professional-grade cosmetics from the world's most
+              trusted beauty brands to ensure flawless, long-lasting results.
+            </p>
+          </div>
+        </ScrollAnimationWrapper>
 
         {/* Featured Brands */}
         <div className="mb-20">
-          <h3 className="text-2xl font-display font-semibold text-center text-neutral-800 mb-12">
-            Trusted Brand Partners
-          </h3>
+          <ScrollAnimationWrapper animation="slide-up" delay={400}>
+            <h3 className="text-2xl font-display font-semibold text-center text-neutral-800 mb-12">
+              Trusted Brand Partners
+            </h3>
+          </ScrollAnimationWrapper>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
             {brands.map((brand, index) => (
-              <div
+              <ScrollAnimationWrapper 
                 key={index}
-                className="bg-white dark:bg-neutral-700 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover animate-scale-in text-center"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                animation="scale-in" 
+                delay={600 + (index * 100)}
               >
-                <div className="h-16 flex items-center justify-center mb-4">
-                  <div className="text-2xl font-bold text-neutral-700 dark:text-neutral-200">
-                    {brand.name.split(' ')[0]}
+                <div className="bg-white dark:bg-neutral-700 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover text-center">
+                  <div className="h-16 flex items-center justify-center mb-4">
+                    <div className="text-2xl font-bold text-neutral-700 dark:text-neutral-200">
+                      {brand.name.split(' ')[0]}
+                    </div>
                   </div>
+                  <h4 className="font-semibold text-neutral-800 dark:text-white text-sm mb-2">{brand.name}</h4>
+                  <p className="text-xs text-primary-600 font-medium mb-2">{brand.specialty}</p>
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">{brand.description}</p>
                 </div>
-                <h4 className="font-semibold text-neutral-800 dark:text-white text-sm mb-2">{brand.name}</h4>
-                <p className="text-xs text-primary-600 font-medium mb-2">{brand.specialty}</p>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">{brand.description}</p>
-              </div>
+              </ScrollAnimationWrapper>
             ))}
           </div>
         </div>
 
         {/* Product Categories */}
         <div className="mb-16">
-          <h3 className="text-xl font-display font-semibold text-center text-neutral-800 dark:text-white mb-8">
-            Professional Product Categories
-          </h3>
+          <ScrollAnimationWrapper animation="slide-up" delay={800}>
+            <h3 className="text-xl font-display font-semibold text-center text-neutral-800 dark:text-white mb-8">
+              Professional Product Categories
+            </h3>
+          </ScrollAnimationWrapper>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
             {productCategories.map((category, index) => (
-              <div
+              <ScrollAnimationWrapper 
                 key={index}
-                className="bg-white dark:bg-neutral-700 rounded-2xl p-4 lg:p-6 shadow-md hover:shadow-xl transition-all duration-300 card-hover animate-scale-in group"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                animation="slide-up" 
+                delay={1000 + (index * 150)}
               >
-                <div className="text-center mb-4">
-                  <div className="text-2xl lg:text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">{category.icon}</div>
-                  <h4 className="text-sm lg:text-base font-display font-semibold text-neutral-800 dark:text-white mb-3 leading-tight">
-                    {category.category}
-                  </h4>
+                <div className="bg-white dark:bg-neutral-700 rounded-2xl p-4 lg:p-6 shadow-md hover:shadow-xl transition-all duration-300 card-hover group">
+                  <div className="text-center mb-4">
+                    <div className="text-2xl lg:text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">{category.icon}</div>
+                    <h4 className="text-sm lg:text-base font-display font-semibold text-neutral-800 dark:text-white mb-3 leading-tight">
+                      {category.category}
+                    </h4>
+                  </div>
+                  <ul className="space-y-2">
+                    {category.products.slice(0, 3).map((product, productIndex) => (
+                      <li key={productIndex} className="flex items-start text-neutral-600 dark:text-neutral-300">
+                        <div className="w-1.5 h-1.5 bg-primary-400 rounded-full mt-1.5 mr-2 flex-shrink-0"></div>
+                        <span className="text-xs lg:text-sm leading-tight">{product}</span>
+                      </li>
+                    ))}
+                    {category.products.length > 3 && (
+                      <li className="text-xs text-primary-500 dark:text-primary-400 font-medium pt-1">
+                        +{category.products.length - 3} more items
+                      </li>
+                    )}
+                  </ul>
                 </div>
-                <ul className="space-y-2">
-                  {category.products.slice(0, 3).map((product, productIndex) => (
-                    <li key={productIndex} className="flex items-start text-neutral-600 dark:text-neutral-300">
-                      <div className="w-1.5 h-1.5 bg-primary-400 rounded-full mt-1.5 mr-2 flex-shrink-0"></div>
-                      <span className="text-xs lg:text-sm leading-tight">{product}</span>
-                    </li>
-                  ))}
-                  {category.products.length > 3 && (
-                    <li className="text-xs text-primary-500 dark:text-primary-400 font-medium pt-1">
-                      +{category.products.length - 3} more items
-                    </li>
-                  )}
-                </ul>
-              </div>
+              </ScrollAnimationWrapper>
             ))}
           </div>
         </div>
 
         {/* Quality Promise */}
-        <div className="bg-white rounded-3xl shadow-2xl p-12 text-center animate-fade-in">
+        <ScrollAnimationWrapper animation="scale-in" delay={1200}>
+          <div className="bg-white rounded-3xl shadow-2xl p-12 text-center">
           <div className="text-5xl mb-8">✨</div>
           <h3 className="text-3xl font-display font-semibold text-neutral-800 mb-6">
             My Quality Promise
@@ -214,25 +227,32 @@ const Products = () => {
               View Services
             </a>
           </div>
-        </div>
+          </div>
+        </ScrollAnimationWrapper>
 
         {/* Additional Info */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-          <div className="animate-fade-in">
-            <div className="text-3xl mb-4">🛡️</div>
-            <h4 className="font-display font-semibold text-neutral-800 mb-2">Allergy-Friendly</h4>
-            <p className="text-neutral-600 text-sm">Hypoallergenic options available for sensitive skin</p>
-          </div>
-          <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            <div className="text-3xl mb-4">🌿</div>
-            <h4 className="font-display font-semibold text-neutral-800 mb-2">Cruelty-Free</h4>
-            <p className="text-neutral-600 text-sm">All brands are cruelty-free and ethically sourced</p>
-          </div>
-          <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
-            <div className="text-3xl mb-4">📸</div>
-            <h4 className="font-display font-semibold text-neutral-800 mb-2">Camera-Ready</h4>
-            <p className="text-neutral-600 text-sm">Products specifically chosen for photography and videography</p>
-          </div>
+          <ScrollAnimationWrapper animation="fade-in" delay={1400}>
+            <div>
+              <div className="text-3xl mb-4">🛡️</div>
+              <h4 className="font-display font-semibold text-neutral-800 mb-2">Allergy-Friendly</h4>
+              <p className="text-neutral-600 text-sm">Hypoallergenic options available for sensitive skin</p>
+            </div>
+          </ScrollAnimationWrapper>
+          <ScrollAnimationWrapper animation="fade-in" delay={1600}>
+            <div>
+              <div className="text-3xl mb-4">🌿</div>
+              <h4 className="font-display font-semibold text-neutral-800 mb-2">Cruelty-Free</h4>
+              <p className="text-neutral-600 text-sm">All brands are cruelty-free and ethically sourced</p>
+            </div>
+          </ScrollAnimationWrapper>
+          <ScrollAnimationWrapper animation="fade-in" delay={1800}>
+            <div>
+              <div className="text-3xl mb-4">📸</div>
+              <h4 className="font-display font-semibold text-neutral-800 mb-2">Camera-Ready</h4>
+              <p className="text-neutral-600 text-sm">Products specifically chosen for photography and videography</p>
+            </div>
+          </ScrollAnimationWrapper>
         </div>
       </div>
     </section>

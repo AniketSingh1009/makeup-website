@@ -1,4 +1,5 @@
 import React from 'react';
+import ScrollAnimationWrapper from './ScrollAnimationWrapper';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -12,7 +13,8 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-br from-neutral-900 to-neutral-800 dark:from-neutral-950 dark:to-neutral-900 text-white">
       <div className="container-custom py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <ScrollAnimationWrapper animation="fade-in" delay={200}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="lg:col-span-2">
             <h3 className="text-3xl font-display font-bold mb-6 text-gradient">Preety Makeover</h3>
@@ -27,13 +29,21 @@ const Footer = () => {
                 <svg className="w-5 h-5 mr-3 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                <span>+91 87096 01720</span>
+                <a 
+                  href="tel:+918709601720" 
+                  className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center"
+                >
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  Call Now
+                </a>
               </div>
               <div className="flex items-center text-neutral-300">
                 <svg className="w-5 h-5 mr-3 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <span>p</span>
+                <span>preetygupta079@gmail.com</span>
               </div>
               <div className="flex items-center text-neutral-300">
                 <svg className="w-5 h-5 mr-3 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -83,7 +93,7 @@ const Footer = () => {
             <ul className="space-y-3">
               <li><span className="text-neutral-300">Bridal Makeup</span></li>
               <li><span className="text-neutral-300">Editorial & Fashion</span></li>
-              <li><span className="text-neutral-300">Special Effects</span></li>
+              <li><span className="text-neutral-300">Airbrush Makeup</span></li>
               <li><span className="text-neutral-300">Event Makeup</span></li>
               <li><span className="text-neutral-300">Makeup Lessons</span></li>
               <li>
@@ -96,11 +106,13 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-        </div>
+          </div>
+        </ScrollAnimationWrapper>
 
         {/* Bottom Bar */}
-        <div className="border-t border-neutral-700 mt-16 pt-8">
-          <div className="flex flex-col lg:flex-row justify-between items-center">
+        <ScrollAnimationWrapper animation="slide-up" delay={400}>
+          <div className="border-t border-neutral-700 mt-16 pt-8">
+            <div className="flex flex-col lg:flex-row justify-between items-center">
             <p className="text-neutral-400 text-sm mb-4 lg:mb-0">
               © {currentYear} Preety Makeup Artistry. All rights reserved.
             </p>
@@ -115,8 +127,9 @@ const Footer = () => {
                 Made with 💄 in Anipreet.
               </span>
             </div>
+            </div>
           </div>
-        </div>
+        </ScrollAnimationWrapper>
       </div>
     </footer>
   );

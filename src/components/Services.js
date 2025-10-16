@@ -1,4 +1,5 @@
 import React from 'react';
+import ScrollAnimationWrapper from './ScrollAnimationWrapper';
 
 const Services = ({ onViewPortfolio }) => {
   const services = [
@@ -21,11 +22,11 @@ const Services = ({ onViewPortfolio }) => {
       popular: false
     },
     {
-      icon: '🎭',
-      title: 'Special Effects',
-      description: 'Transform into any character with professional SFX makeup. Perfect for film, theater, Halloween, and creative projects.',
-      features: ['Character Design', 'Prosthetic Application', 'Body Painting', 'Theatrical Makeup', 'Custom Creations'],
-      price: 'From 13000 onwards',
+      icon: '✨',
+      title: 'Airbrush Makeup',
+      description: 'Flawless, long-lasting airbrush makeup for a perfect finish. Ideal for weddings, photoshoots, and special events.',
+      features: ['HD Finish', 'Long-lasting Coverage', 'Sweat & Water Resistant', 'Photo-Ready Results', 'Natural Look'],
+      price: 'From 15000 onwards',
       duration: '2-4 hours',
       popular: false
     },
@@ -68,7 +69,8 @@ const Services = ({ onViewPortfolio }) => {
     <section id="services" className="section-padding bg-neutral-50 dark:bg-neutral-800">
       <div className="container-custom">
         {/* Header */}
-        <div className="text-center mb-16 animate-fade-in">
+        <ScrollAnimationWrapper animation="fade-in" delay={200}>
+          <div className="text-center mb-16">
           <h2 className="font-display text-neutral-800 dark:text-white mb-6">
             My <span className="text-gradient">Services</span>
           </h2>
@@ -76,24 +78,28 @@ const Services = ({ onViewPortfolio }) => {
             From intimate bridal sessions to high-fashion editorial shoots, I offer comprehensive
             makeup services tailored to your unique vision and style.
           </p>
-        </div>
+          </div>
+        </ScrollAnimationWrapper>
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {services.map((service, index) => (
-            <div
+            <ScrollAnimationWrapper 
               key={index}
-              className={`relative bg-white dark:bg-neutral-700 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden card-hover animate-scale-in ${service.popular ? 'ring-2 ring-primary-200 dark:ring-primary-400' : ''
-                }`}
-              style={{ animationDelay: `${index * 0.1}s` }}
+              animation="scale-in" 
+              delay={index * 150 + 600}
             >
-              {service.popular && (
-                <div className="absolute top-6 right-6 bg-gradient-to-r from-primary-500 to-gold-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                  Most Popular
-                </div>
-              )}
+              <div
+                className={`relative bg-white dark:bg-neutral-700 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden card-hover ${service.popular ? 'ring-2 ring-primary-200 dark:ring-primary-400' : ''
+                  }`}
+              >
+                {service.popular && (
+                  <div className="absolute top-6 right-6 bg-gradient-to-r from-primary-500 to-gold-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                    Most Popular
+                  </div>
+                )}
 
-              <div className="p-8">
+                <div className="p-8">
                 <div className="text-5xl mb-6">{service.icon}</div>
                 <h3 className="text-2xl font-display font-semibold text-neutral-800 dark:text-white mb-4">{service.title}</h3>
                 <p className="text-neutral-600 dark:text-neutral-300 mb-6 leading-relaxed">{service.description}</p>
@@ -124,15 +130,16 @@ const Services = ({ onViewPortfolio }) => {
                   <button
                     onClick={() => handleBookService(service.title)}
                     className={`w-full py-3 px-6 rounded-full font-medium transition-all duration-300 transform hover:scale-105 ${service.popular
-                        ? 'bg-gradient-to-r from-primary-500 to-gold-500 text-white shadow-lg hover:shadow-xl'
-                        : 'bg-primary-500 hover:bg-primary-600 text-white'
+                      ? 'bg-gradient-to-r from-primary-500 to-gold-500 text-white shadow-lg hover:shadow-xl'
+                      : 'bg-primary-500 hover:bg-primary-600 text-white'
                       }`}
                   >
                     Book {service.title}
                   </button>
                 </div>
+                </div>
               </div>
-            </div>
+            </ScrollAnimationWrapper>
           ))}
         </div>
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ScrollAnimationWrapper from './ScrollAnimationWrapper';
 
 const Testimonials = ({ onViewPortfolio }) => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
