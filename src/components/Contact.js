@@ -139,7 +139,7 @@ const Contact = () => {
               </p>
               <div className="flex space-x-4">
                 <a 
-                  href="https://instagram.com/makeupbysarah" 
+                  href="https://www.instagram.com/preetymakeover_patna?igsh=bTNiOXJyYXM4aHFm" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white p-4 rounded-2xl transition-all duration-300 transform hover:scale-110 shadow-lg hover:shadow-xl"
