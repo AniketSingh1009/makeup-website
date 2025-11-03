@@ -6,7 +6,7 @@ const Testimonials = ({ onViewPortfolio }) => {
 
   const testimonials = [
     {
-      name: 'Aniket Singh',
+      name: 'Mohit gupta',
       role: 'Portrait Photographer • Patna Bihar',
       image: '/pictures/dp.jpg',
       text: 'Preety is professional, punctual, and detail-oriented. Her work truly brings out the best in every bridal portrait.',
