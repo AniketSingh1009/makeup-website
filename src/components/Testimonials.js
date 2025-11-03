@@ -6,42 +6,42 @@ const Testimonials = ({ onViewPortfolio }) => {
 
   const testimonials = [
     {
-      name: 'Emily Johnson',
-      role: 'Bride • Central Park Wedding',
-      image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
-      text: 'Sarah made my wedding day absolutely magical! Her attention to detail was incredible. I felt like the most radiant version of myself.',
+      name: 'Aniket Singh',
+      role: 'Portrait Photographer • Patna Bihar',
+      image: '/pictures/dp.jpg',
+      text: 'Preety is professional, punctual, and detail-oriented. Her work truly brings out the best in every bridal portrait.',
       rating: 5,
       featured: true
     },
     {
-      name: 'Maria Rodriguez',
-      role: 'Fashion Model • Vogue Editorial',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
-      text: 'Working with Sarah is always a dream. She understands lighting and creates looks that translate beautifully on camera.',
+      name: 'Radhika',
+      role: 'Bride • Bihar',
+      image: '/pictures/b20.jpg',
+      text: 'Preety made me feel like an absolute queen on my wedding day! My makeup was flawless and lasted perfectly till the end.',
       rating: 5,
       featured: false
     },
     {
-      name: 'Jessica Chen',
-      role: 'Event Coordinator • Luxury Weddings',
-      image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
-      text: 'I recommend Sarah to all my clients. She is incredibly professional and creates stunning looks that photograph beautifully.',
+      name: 'Rinki',
+      role: 'Model and Makeup Artist • Patna',
+      image: '/pictures/b25.jpg',
+      text: 'I recommend preety to all my clients. She is incredibly professional and creates stunning looks that photograph beautifully.',
       rating: 5,
       featured: false
     },
     {
-      name: 'Amanda Thompson',
-      role: 'Portrait Photographer',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
-      text: 'Sarah is my go-to makeup artist. Her work is flawless and she makes every client feel comfortable and confident.',
+      name: 'Deepti',
+      role: 'Bride',
+      image: '/pictures/af5.jpg',
+      text: 'preety is my go-to makeup artist. Her work is flawless and she makes every client feel comfortable and confident.',
       rating: 5,
       featured: false
     },
     {
-      name: 'Rachel Kim',
+      name: 'Mahi',
       role: 'Bride • Destination Wedding',
-      image: 'https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
-      text: 'Sarah traveled to our destination wedding and was worth every penny. She created the perfect romantic look for our ceremony.',
+      image: '/pictures/afa4.jpg',
+      text: 'preety traveled to our destination wedding and was worth every penny. She created the perfect romantic look for our ceremony.',
       rating: 5,
       featured: false
     }

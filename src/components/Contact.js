@@ -75,7 +75,7 @@ const Contact = () => {
                     Call Now
                   </a>
                   <a href="mailto:hello@makeupbysarah.com" className="block text-primary-600 hover:text-primary-700 font-medium">
-                    ✉️ hello@makeupbysarah.com
+                    ✉️ preetymakeover@gmail.com
                   </a>
                 </div>
               </div>
