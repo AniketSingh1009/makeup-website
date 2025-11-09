@@ -38,11 +38,7 @@ const Hero = ({ onViewPortfolio }) => {
     window.open(whatsappUrl, '_blank');
   };
 
-  const handleContactMe = () => {
-    const message = "Hi! I'd like to inquire about your makeup services.";
-    const whatsappUrl = `https://wa.me/+918709601720?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
-  };
+
 
   return (
     <section id="home" className="relative h-screen overflow-hidden">

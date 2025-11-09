@@ -77,7 +77,7 @@ const Portfolio = ({ onClose }) => {
       const img = new Image();
       img.src = item.image;
     });
-  }, []);
+  }, [imageNames]);
 
   // Prevent background scrolling when lightbox is open
   useEffect(() => {
@@ -291,12 +291,11 @@ const Portfolio = ({ onClose }) => {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [selectedImage, selectedImageIndex, portfolioImages, zoomLevel, imagePosition]);
+  }, [selectedImage, selectedImageIndex, portfolioImages, zoomLevel, imagePosition, navigateToNext, navigateToPrevious, zoomIn, zoomOut, resetZoom, closeLightbox]);
 
   // Touch/swipe handling
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
-  const [touchStartPos, setTouchStartPos] = useState({ x: 0, y: 0 });
   const [isTouchDragging, setIsTouchDragging] = useState(false);
 
   // Pinch-to-zoom handling
@@ -320,7 +319,6 @@ const Portfolio = ({ onClose }) => {
       const touch = touches[0];
       setTouchEnd(null);
       setTouchStart(touch.clientX);
-      setTouchStartPos({ x: touch.clientX, y: touch.clientY });
 
       if (zoomLevel > 1) {
         setIsTouchDragging(true);
