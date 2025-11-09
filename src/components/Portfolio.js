@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import ScrollAnimationWrapper from './ScrollAnimationWrapper';
 
 const Portfolio = ({ onClose }) => {
@@ -11,9 +11,8 @@ const Portfolio = ({ onClose }) => {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [showDragHint, setShowDragHint] = useState(false);
 
-  // Generate image list from public/pictures folder
-  // You can manually add image names here or use a dynamic approach
-  const imageNames = [
+  // Generate image list from public/pictures folder - memoized to prevent re-creation
+  const imageNames = useMemo(() => [
     'b25.jpg',
     'b6.jpg',
     'IMG_20241024_003646_344.jpg',
@@ -27,8 +26,6 @@ const Portfolio = ({ onClose }) => {
     'af4.jpg',
     'af5.jpg',
     'af6.jpg',
-    // 'af7.jpg',
-    // 'af8.jpg',
     'b1.jpg',
     'b2.jpg',
     'b3.jpg',
@@ -52,14 +49,7 @@ const Portfolio = ({ onClose }) => {
     'IMG-20241023-WA0028.jpg',
     'IMG-20241023-WA0027.jpg',
     'b9.jpg',
-    //  'IMG-20241023-WA0003.jpg',
-    // Add more image names as they exist in your public/pictures folder
-    // For example:
-    // 'image1.jpg',
-    // 'image2.jpg',
-    // 'image3.jpg',
-    // etc.
-  ];
+  ], []);
 
   useEffect(() => {
     // Create portfolio items from image names
@@ -99,42 +89,45 @@ const Portfolio = ({ onClose }) => {
     setSelectedImageIndex(index);
   };
 
-  const closeLightbox = () => {
+  const closeLightbox = useCallback(() => {
     setSelectedImage(null);
     setSelectedImageIndex(0);
     setZoomLevel(1);
     setImagePosition({ x: 0, y: 0 });
-  };
+  }, []);
 
-  const navigateToNext = () => {
+  const navigateToNext = useCallback(() => {
     const nextIndex = (selectedImageIndex + 1) % portfolioImages.length;
     setSelectedImageIndex(nextIndex);
     setSelectedImage(portfolioImages[nextIndex]);
     setZoomLevel(1);
     setImagePosition({ x: 0, y: 0 });
-  };
+  }, [selectedImageIndex, portfolioImages]);
 
-  const navigateToPrevious = () => {
+  const navigateToPrevious = useCallback(() => {
     const prevIndex = selectedImageIndex === 0 ? portfolioImages.length - 1 : selectedImageIndex - 1;
     setSelectedImageIndex(prevIndex);
     setSelectedImage(portfolioImages[prevIndex]);
     setZoomLevel(1);
     setImagePosition({ x: 0, y: 0 });
-  };
+  }, [selectedImageIndex, portfolioImages]);
 
   // Zoom functions
-  const zoomIn = () => {
-    const newZoom = Math.min(zoomLevel + 0.5, 3);
-    setZoomLevel(newZoom);
+  const zoomIn = useCallback(() => {
+    setZoomLevel(prev => {
+      const newZoom = Math.min(prev + 0.5, 3);
+      
+      // Show drag hint when first zooming in
+      if (prev === 1 && newZoom > 1) {
+        setShowDragHint(true);
+        setTimeout(() => setShowDragHint(false), 3000);
+      }
+      
+      return newZoom;
+    });
+  }, []);
 
-    // Show drag hint when first zooming in
-    if (zoomLevel === 1 && newZoom > 1) {
-      setShowDragHint(true);
-      setTimeout(() => setShowDragHint(false), 3000);
-    }
-  };
-
-  const zoomOut = () => {
+  const zoomOut = useCallback(() => {
     setZoomLevel(prev => {
       const newZoom = Math.max(prev - 0.5, 1);
       if (newZoom === 1) {
@@ -143,13 +136,13 @@ const Portfolio = ({ onClose }) => {
       }
       return newZoom;
     });
-  };
+  }, []);
 
-  const resetZoom = () => {
+  const resetZoom = useCallback(() => {
     setZoomLevel(1);
     setImagePosition({ x: 0, y: 0 });
     setShowDragHint(false);
-  };
+  }, []);
 
   // Mouse drag functions
   const handleMouseDown = (e) => {
