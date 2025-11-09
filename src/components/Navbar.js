@@ -37,7 +37,7 @@ const Navbar = ({ onPortfolioClick }) => {
                 ? 'text-neutral-800 dark:text-white' 
                 : 'text-white'
             }`}>
-              Preety Gupta
+              Preety Makeover
             </h1>
           </div>
 
